@@ -61,3 +61,28 @@ def LSTM_Model(input_shape,num_classes):
     model.add(keras.layers.Dense(units = num_classes, activation = 'softmax'))
     
     return model
+
+
+def LSTM_Model_Conv(input_shape,num_classes):
+    model=keras.models.Sequential()
+    #model.add(keras.layers.Conv1D(2056, 5,activation = 'relu',input_shape = input_shape))
+    #model.add(keras.layers.Dropout(0.5))
+    model.add(keras.layers.LSTM(units = 100, return_sequences = True,input_shape = input_shape ))
+    model.add(keras.layers.Dropout(0.25))
+    model.add(keras.layers.LSTM(units = 100, return_sequences = True))
+    model.add(keras.layers.Dropout(0.25))
+    model.add(keras.layers.LSTM(units = 100, return_sequences = True))
+    model.add(keras.layers.Dropout(0.25))
+
+    # Adding a fourth LSTM layer and some Dropout regularisation
+    model.add(keras.layers.LSTM(units = 100))
+    model.add(keras.layers.Dropout(0.25))
+
+    #Adding Batch Normalisation
+    model.add(keras.layers.BatchNormalization())
+    model.add(keras.layers.Dropout(0.25))
+
+    # Adding the output layer
+    model.add(keras.layers.Dense(units = num_classes, activation = 'softmax'))
+    
+    return model
